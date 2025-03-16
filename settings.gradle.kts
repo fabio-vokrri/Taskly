@@ -21,3 +21,13 @@ dependencyResolutionManagement {
 
 rootProject.name = "Taskly"
 include(":app")
+include(":core:data")
+include(":core:model")
+include(":core:database")
+include(":core:datastore")
+include(":core:network")
+include(":core:notifications")
+include(":core:common")
+include(":features:overview")
+include(":features:profile")
+include(":features:tasklist")
