@@ -23,6 +23,8 @@
             <option value="$PROJECT_DIR$/features/overview" />
             <option value="$PROJECT_DIR$/features/profile" />
             <option value="$PROJECT_DIR$/features/tasklist" />
+            <option value="$PROJECT_DIR$/wearable" />
+            <option value="$PROJECT_DIR$/widget" />
           </set>
         </option>
       </GradleProjectSettings>
