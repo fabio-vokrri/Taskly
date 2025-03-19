@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import it.fabiovokrri.model.Task
+import it.fabiovokrri.model.TaskStatus
 
 /**
  * Entity that represents a task in the database.
@@ -16,8 +17,8 @@ data class TaskEntity(
     @ColumnInfo(defaultValue = "")
     val description: String,
     val dueDate: Long,
-    val isCompleted: Boolean,
     val priority: Int,
+    val status: TaskStatus
 )
 
 /**
@@ -28,6 +29,7 @@ fun TaskEntity.toExternalModel() = Task(
     title = title,
     description = description,
     dueDate = dueDate,
-    isCompleted = isCompleted,
     priority = priority,
+    tags = emptyList(),
+    status = status
 )

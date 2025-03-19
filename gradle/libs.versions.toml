@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.0"
+datastoreCore = "1.1.3"
 hiltAndroid = "2.54"
 hiltAndroidCompiler = "2.51.1"
 hiltCompiler = "2.54"
@@ -32,6 +33,8 @@ watchfaceComplicationsDataSourceKtx = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastoreCore" }
+androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastoreCore" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }

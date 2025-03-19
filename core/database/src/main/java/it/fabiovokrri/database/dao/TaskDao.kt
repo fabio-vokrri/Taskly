@@ -3,6 +3,7 @@ package it.fabiovokrri.database.dao
 import androidx.room.Dao
 import androidx.room.Query
 import it.fabiovokrri.database.model.TaskEntity
+import it.fabiovokrri.model.TaskStatus
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -22,17 +23,12 @@ interface TaskDao {
     @Query("SELECT * FROM tasks WHERE id = :id")
     fun getTaskById(id: Long): Flow<TaskEntity>
 
-    /**
-     * Gets all incomplete tasks from the database.
-     */
-    @Query("SELECT * FROM tasks WHERE isCompleted = 0")
-    fun getIncompleteTasks(): Flow<List<TaskEntity>>
 
     /**
-     * Gets all completed tasks from the database.
+     * Gets all the tasks with the specified [status].
      */
-    @Query("SELECT * FROM tasks WHERE isCompleted = 1")
-    fun getCompletedTasks(): Flow<List<TaskEntity>>
+    @Query("SELECT * FROM tasks WHERE status = :status")
+    fun getByStatus(status: TaskStatus): Flow<List<TaskEntity>>
 
     /**
      * Gets tasks due to the specified [dueDate].

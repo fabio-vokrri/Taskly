@@ -14,11 +14,17 @@ import it.fabiovokrri.database.dao.TaskDao
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DaosModule {
+    /**
+     * Provides the [TaskDao] instance.
+     */
     @Provides
     fun provideTaskDao(
         database: TasklyDatabase
     ): TaskDao = database.getTaskDao()
 
+    /**
+     * Provides the [TagDao] instance.
+     */
     @Provides
     fun provideTagDao(
         database: TasklyDatabase

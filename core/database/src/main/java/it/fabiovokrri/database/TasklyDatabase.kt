@@ -2,10 +2,12 @@ package it.fabiovokrri.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import it.fabiovokrri.database.dao.TagDao
 import it.fabiovokrri.database.dao.TaskDao
 import it.fabiovokrri.database.model.TagEntity
 import it.fabiovokrri.database.model.TaskEntity
+import it.fabiovokrri.database.util.StatusConverter
 
 /**
  * The [RoomDatabase] for Taskly.
@@ -18,6 +20,7 @@ import it.fabiovokrri.database.model.TaskEntity
     version = 1,
     exportSchema = true
 )
+@TypeConverters(StatusConverter::class)
 internal abstract class TasklyDatabase : RoomDatabase() {
     /**
      * Returns the [TaskDao] instance.
