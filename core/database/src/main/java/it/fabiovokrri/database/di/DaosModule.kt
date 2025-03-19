@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import it.fabiovokrri.database.TasklyDatabase
 import it.fabiovokrri.database.dao.TagDao
 import it.fabiovokrri.database.dao.TaskDao
+import it.fabiovokrri.database.dao.TaskTagCrossRefDao
 
 /**
  * Module that provides DAOs for the database.
@@ -19,7 +20,7 @@ internal object DaosModule {
      */
     @Provides
     fun provideTaskDao(
-        database: TasklyDatabase
+        database: TasklyDatabase,
     ): TaskDao = database.getTaskDao()
 
     /**
@@ -27,6 +28,14 @@ internal object DaosModule {
      */
     @Provides
     fun provideTagDao(
-        database: TasklyDatabase
+        database: TasklyDatabase,
     ): TagDao = database.getTagDao()
+
+    /**
+     * Provides the [TaskTagCrossRefDao] instance.
+     */
+    fun provideTaskTagCrossRefDao(
+        database: TasklyDatabase,
+    ): TaskTagCrossRefDao = database.getTaskTagCrossRefDao()
+
 }

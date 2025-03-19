@@ -20,10 +20,10 @@ interface TagsRepository {
     /**
      * Upserts the given [tag].
      */
-    fun upsertTag(tag: Tag)
+    suspend fun upsertTag(tag: Tag)
 
     /**
      * Deletes the given [tag].
      */
-    fun deleteTag(tag: Tag)
+    suspend fun deleteTag(tag: Tag)
 }

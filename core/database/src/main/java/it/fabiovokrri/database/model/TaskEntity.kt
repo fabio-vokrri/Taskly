@@ -18,7 +18,7 @@ data class TaskEntity(
     val description: String,
     val dueDate: Long,
     val priority: Int,
-    val status: TaskStatus
+    val status: TaskStatus,
 )
 
 /**
@@ -31,5 +31,14 @@ fun TaskEntity.toExternalModel() = Task(
     dueDate = dueDate,
     priority = priority,
     tags = emptyList(),
+    status = status
+)
+
+fun Task.toEntity() = TaskEntity(
+    id = id,
+    title = title,
+    description = description,
+    dueDate = dueDate,
+    priority = priority,
     status = status
 )

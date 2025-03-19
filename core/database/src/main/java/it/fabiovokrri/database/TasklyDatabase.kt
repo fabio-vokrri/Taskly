@@ -5,8 +5,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import it.fabiovokrri.database.dao.TagDao
 import it.fabiovokrri.database.dao.TaskDao
+import it.fabiovokrri.database.dao.TaskTagCrossRefDao
 import it.fabiovokrri.database.model.TagEntity
 import it.fabiovokrri.database.model.TaskEntity
+import it.fabiovokrri.database.model.TaskTagCrossRefEntity
 import it.fabiovokrri.database.util.StatusConverter
 
 /**
@@ -16,6 +18,7 @@ import it.fabiovokrri.database.util.StatusConverter
     entities = [
         TaskEntity::class,
         TagEntity::class,
+        TaskTagCrossRefEntity::class,
     ],
     version = 1,
     exportSchema = true
@@ -31,4 +34,9 @@ internal abstract class TasklyDatabase : RoomDatabase() {
      * Returns the [TagDao] instance.
      */
     abstract fun getTagDao(): TagDao
+
+    /**
+     * Returns the [TaskTagCrossRefDao] instance.
+     */
+    abstract fun getTaskTagCrossRefDao(): TaskTagCrossRefDao
 }

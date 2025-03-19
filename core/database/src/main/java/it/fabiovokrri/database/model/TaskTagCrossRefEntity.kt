@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
+import it.fabiovokrri.model.TaskTagCrossRef
 
 /**
  * Cross reference entity for the many-to-many relationship between tasks and tags.
@@ -30,9 +31,25 @@ import androidx.room.Index
         Index(value = ["tag_id"]),
     ]
 )
-data class TaskTagCrossRef(
+data class TaskTagCrossRefEntity(
     @ColumnInfo(name = "task_id")
     val taskId: Long,
     @ColumnInfo(name = "tag_id")
-    val tagId: Long
+    val tagId: Long,
+)
+
+/**
+ * Converts a [TaskTagCrossRefEntity] into a [TaskTagCrossRef].
+ */
+fun TaskTagCrossRefEntity.toExternalModel() = TaskTagCrossRef(
+    taskId = taskId,
+    tagId = tagId,
+)
+
+/**
+ * Converts a [TaskTagCrossRefEntity] into a [TaskTagCrossRef].
+ */
+fun TaskTagCrossRef.toEntity() = TaskTagCrossRefEntity(
+    taskId = taskId,
+    tagId = tagId,
 )

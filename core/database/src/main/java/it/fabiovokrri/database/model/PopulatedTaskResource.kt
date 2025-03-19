@@ -16,12 +16,12 @@ data class PopulatedTaskResource(
         parentColumn = "id",
         entityColumn = "id",
         associateBy = Junction(
-            value = TaskTagCrossRef::class,
+            value = TaskTagCrossRefEntity::class,
             parentColumn = "task_id",
             entityColumn = "tag_id"
         )
     )
-    val tags: List<TagEntity>
+    val tags: List<TagEntity>,
 )
 
 /**

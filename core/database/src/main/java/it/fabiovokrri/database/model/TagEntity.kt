@@ -11,13 +11,21 @@ import it.fabiovokrri.model.Tag
 data class TagEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val name: String
+    val name: String,
 )
 
 /**
  * Converts a [TagEntity] into a [Tag].
  */
 fun TagEntity.toExternalModel() = Tag(
+    name = name,
+    id = id,
+)
+
+/**
+ * Converts a [Tag] into a [TagEntity].
+ */
+fun Tag.toEntity() = TagEntity(
     name = name,
     id = id,
 )
