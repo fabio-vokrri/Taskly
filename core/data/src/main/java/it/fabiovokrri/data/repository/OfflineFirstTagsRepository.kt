@@ -22,5 +22,19 @@ class OfflineFirstTagsRepository @Inject constructor(
 
     override suspend fun upsertTag(tag: Tag) = tagDao.upsertTag(tag.toEntity())
 
-    override suspend fun deleteTag(tag: Tag) = tagDao.deleteTag(tag.id)
+    override suspend fun deleteTag(tag: Tag) {
+        // TODO: decide what to do when a tag is deleted
+        // TODO: should we delete all the tasks that have this tag?
+        // TODO: or should we just remove the cross reference?
+        // TODO: what if a task has only that tag?
+
+        TODO("I DON'T REALLY KNOW WHAT TO DO")
+        tagDao.deleteTag(tag.id)
+    }
+
+    override fun getTagsByTaskId(taskId: Long): Flow<List<Tag>> {
+        return tagDao.getTagsByTaskId(taskId).map {
+            it.map(TagEntity::toExternalModel)
+        }
+    }
 }

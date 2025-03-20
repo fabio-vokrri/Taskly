@@ -12,20 +12,14 @@ import it.fabiovokrri.database.model.TaskTagCrossRefEntity
 @Dao
 interface TaskTagCrossRefDao {
     /**
-     * Inserts the given [crossRef] into the database.
-     */
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(crossRef: TaskTagCrossRefEntity)
-
-    /**
      * Inserts the given [crossRefs] into the database.
      */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(crossRefs: List<TaskTagCrossRefEntity>)
 
     /**
-     * Deletes the given [crossRef] from the database.
+     * Deletes a cross reference from the database given the [taskId].
      */
     @Delete
-    suspend fun delete(crossRef: TaskTagCrossRefEntity)
+    suspend fun delete(taskId: Long)
 }

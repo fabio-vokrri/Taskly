@@ -35,4 +35,10 @@ interface TagDao {
      */
     @Query("DELETE FROM tags WHERE id = :id")
     suspend fun deleteTag(id: Long)
+
+    /**
+     * Gets all the tags associated with the given [taskId].
+     */
+    @Query("SELECT * FROM tags JOIN tasks_tags ON tags.id = tasks_tags.tag_id WHERE tasks_tags.task_id = :taskId")
+    fun getTagsByTaskId(taskId: Long): Flow<List<TagEntity>>
 }

@@ -26,4 +26,9 @@ interface TagsRepository {
      * Deletes the given [tag].
      */
     suspend fun deleteTag(tag: Tag)
+
+    /**
+     * Gets all the tags associated with the given [taskId].
+     */
+    fun getTagsByTaskId(taskId: Long): Flow<List<Tag>>
 }
