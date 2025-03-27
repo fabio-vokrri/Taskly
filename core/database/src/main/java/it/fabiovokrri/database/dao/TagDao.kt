@@ -34,7 +34,7 @@ interface TagDao {
      * Deletes a tag from the database.
      */
     @Query("DELETE FROM tags WHERE id = :id")
-    suspend fun deleteTag(id: Long)
+    suspend fun deleteByTagId(id: Long)
 
     /**
      * Gets all the tags associated with the given [taskId].

@@ -15,7 +15,7 @@ class OfflineFirstTasksRepository @Inject constructor(
     private val taskDao: TaskDao,
     private val taskTagCrossRefDao: TaskTagCrossRefDao,
 ) : TasksRepository {
-    
+
     override fun getTasks(): Flow<List<Task>> = taskDao.getTasks().map {
         it.map(PopulatedTaskResource::toExternalModel)
     }
@@ -47,6 +47,6 @@ class OfflineFirstTasksRepository @Inject constructor(
         taskDao.deleteTask(task.id)
 
         // delete the cross references from the cross reference table
-        taskTagCrossRefDao.delete(task.id)
+        taskTagCrossRefDao.deleteByTaskId(task.id)
     }
 }

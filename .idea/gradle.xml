@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/core/notifications" />
             <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/addmodify" />
             <option value="$PROJECT_DIR$/features/overview" />
             <option value="$PROJECT_DIR$/features/profile" />
             <option value="$PROJECT_DIR$/features/tasklist" />
