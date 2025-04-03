@@ -1,5 +1,6 @@
 package it.fabiovokrri.overview.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,10 +21,13 @@ class OverviewViewModel @Inject constructor(
     private val tasksRepository: TasksRepository,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    
+
     val uiState: StateFlow<UiState> = tasksRepository
         .getTasks()
-        .catch { UiState.Failed(it.message ?: "Unknown error") }
+        .catch {
+            Log.e(TAG, "Failed to get tasks", it)
+            UiState.Failed(it.message ?: "Unknown error")
+        }
         .map(UiState::Success)
         .stateIn(
             scope = viewModelScope,
