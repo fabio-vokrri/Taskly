@@ -20,7 +20,9 @@ fun NavController.navigateToOverview(navOptions: NavOptions? = null) =
 fun NavGraphBuilder.overviewScreen() {
     navigation<OverviewBaseRoute>(startDestination = OverviewRoute) {
         composable<OverviewRoute> {
-            OverviewScreen()
+            OverviewScreen(
+                onTaskClick = {}
+            )
         }
     }
 }
