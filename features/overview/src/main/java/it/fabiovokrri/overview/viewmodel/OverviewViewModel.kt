@@ -1,12 +1,12 @@
 package it.fabiovokrri.overview.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.fabiovokrri.data.repository.TagsRepository
 import it.fabiovokrri.data.repository.TasksRepository
+import it.fabiovokrri.model.Tag
 import it.fabiovokrri.model.Task
 import it.fabiovokrri.model.TaskStatus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,6 @@ import javax.inject.Inject
 class OverviewViewModel @Inject constructor(
     private val tasksRepository: TasksRepository,
     private val tagsRepository: TagsRepository,
-    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _selectedTags = MutableStateFlow<Set<Long>>(emptySet())
@@ -32,7 +31,14 @@ class OverviewViewModel @Inject constructor(
     val uiState: StateFlow<UiState> = combine(
         tasksRepository.getTasks(),
         tagsRepository.getTags(),
-    ) { tasks, tags -> UiState.Success(tasks, tags) }
+        selectedTags
+    ) { tasks, tags, selectedTags ->
+        // filters the tasks based on the selected tags
+        val filteredTasks = if (selectedTags.isEmpty()) tasks
+        else tasks.filter { task -> task.tags.any { it.id in selectedTags } }
+
+        UiState.Success(filteredTasks, tags)
+    }
         .catch {
             Log.e(TAG, "Failed to get tasks", it)
             UiState.Failed(it.message ?: "Unknown error")
@@ -78,6 +84,13 @@ class OverviewViewModel @Inject constructor(
     }
 
     /**
+     * Upserts the given [tag].
+     */
+    private fun upsertTag(tag: Tag) = viewModelScope.launch {
+        tagsRepository.upsertTag(tag)
+    }
+
+    /**
      * Handles the given [event].
      */
     fun onEvent(event: OverviewEvent) {
@@ -86,6 +99,7 @@ class OverviewViewModel @Inject constructor(
             is OverviewEvent.CompleteTask -> completeTask(event.task)
             is OverviewEvent.DeleteTask -> deleteTask(event.task)
             is OverviewEvent.ToggleTagSelection -> toggleTagSelection(event.tagId)
+            is OverviewEvent.UpsertTag -> upsertTag(event.tag)
         }
     }
 
