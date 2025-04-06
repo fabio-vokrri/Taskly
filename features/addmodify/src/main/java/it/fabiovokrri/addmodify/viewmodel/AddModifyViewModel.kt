@@ -12,8 +12,10 @@ import it.fabiovokrri.model.Tag
 import it.fabiovokrri.model.Task
 import it.fabiovokrri.model.TaskStatus
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,6 +32,12 @@ class AddModifyViewModel @Inject constructor(
 
     private val _taskState = MutableStateFlow(TaskState())
     val taskState: StateFlow<TaskState> = _taskState.asStateFlow()
+
+    val tags = tagsRepository.getTags().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+        initialValue = emptyList()
+    )
 
     init {
         taskId?.let { id ->
@@ -56,7 +64,7 @@ class AddModifyViewModel @Inject constructor(
      */
     private fun save() {
         check(_taskState.value.title.isEmpty()) {
-            "Title cannot be empty"
+            "$TAG: Title cannot be empty"
         }
 
         viewModelScope.launch {
@@ -81,7 +89,7 @@ class AddModifyViewModel @Inject constructor(
      */
     private fun changeTitle(newTitle: String) {
         check(newTitle.isNotEmpty()) {
-            "Title cannot be empty"
+            "$TAG: Title cannot be empty"
         }
 
         _taskState.update {
@@ -101,7 +109,7 @@ class AddModifyViewModel @Inject constructor(
      */
     private fun changePriority(newPriority: Int) {
         check(newPriority in 0..10) {
-            "Priority must be in range 0..10"
+            "$TAG: Priority must be in range 0..10"
         }
 
         _taskState.update {
@@ -138,6 +146,25 @@ class AddModifyViewModel @Inject constructor(
     }
 
     /**
+     * Creates a new tag with the given [name].
+     */
+    private fun createTag(name: String) = viewModelScope.launch {
+        check(name.isNotEmpty()) {
+            "$TAG: Tag name cannot be empty"
+        }
+
+        val tag = Tag(name = name)
+        tagsRepository.upsertTag(tag)
+    }
+
+    /**
+     * Deletes the given [tag].
+     */
+    private fun deleteTag(tag: Tag) = viewModelScope.launch {
+        tagsRepository.deleteTag(tag)
+    }
+
+    /**
      * Handles the given [event].
      */
     fun onEvent(event: AddModifyEvent) {
@@ -150,6 +177,8 @@ class AddModifyViewModel @Inject constructor(
 
             is AddModifyEvent.AddTag -> addTag(event.tag)
             is AddModifyEvent.RemoveTag -> removeTag(event.tag)
+            is AddModifyEvent.CreateTag -> createTag(event.name)
+            is AddModifyEvent.DeleteTag -> deleteTag(event.tag)
 
             is AddModifyEvent.Save -> save()
         }
@@ -157,5 +186,6 @@ class AddModifyViewModel @Inject constructor(
 
     companion object {
         private const val TAG = "AddModifyViewModel"
+        private const val TIMEOUT_MILLIS = 5_000L
     }
 }
