@@ -20,8 +20,8 @@ class OfflineFirstTasksRepository @Inject constructor(
         it.map(PopulatedTaskResource::toExternalModel)
     }
 
-    override fun getTaskById(id: Long): Flow<Task> =
-        taskDao.getTaskById(id).map(PopulatedTaskResource::toExternalModel)
+    override suspend fun getTaskById(id: Long): Task =
+        taskDao.getTaskById(id).toExternalModel()
 
     override suspend fun upsertTask(task: Task) {
         // inserts the task in the task table

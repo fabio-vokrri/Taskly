@@ -24,7 +24,7 @@ interface TaskDao {
      * Gets a task by its [id].
      */
     @Query("SELECT * FROM tasks WHERE id = :id")
-    fun getTaskById(id: Long): Flow<PopulatedTaskResource>
+    suspend fun getTaskById(id: Long): PopulatedTaskResource
 
     @Upsert
     suspend fun upsertTask(task: TaskEntity): TaskId

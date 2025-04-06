@@ -15,7 +15,7 @@ interface TasksRepository {
     /**
      * Gets a task by its [id].
      */
-    fun getTaskById(id: Long): Flow<Task>
+    suspend fun getTaskById(id: Long): Task
 
     /**
      * Upserts the given [task].
