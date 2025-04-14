@@ -6,13 +6,15 @@ import androidx.room.Upsert
 import it.fabiovokrri.database.model.PopulatedTaskResource
 import it.fabiovokrri.database.model.TaskEntity
 import kotlinx.coroutines.flow.Flow
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-typealias TaskId = Long
 
 /**
  * Data access object for [TaskEntity] access.
  */
 @Dao
+@OptIn(ExperimentalUuidApi::class)
 interface TaskDao {
     /**
      * Gets all tasks from the database.
@@ -24,11 +26,11 @@ interface TaskDao {
      * Gets a task by its [id].
      */
     @Query("SELECT * FROM tasks WHERE id = :id")
-    suspend fun getTaskById(id: Long): PopulatedTaskResource
+    suspend fun getTaskById(id: String): PopulatedTaskResource
 
     @Upsert
-    suspend fun upsertTask(task: TaskEntity): TaskId
+    suspend fun upsertTask(task: TaskEntity): Uuid
 
     @Query("DELETE FROM tasks WHERE id = :id")
-    suspend fun deleteTask(id: Long)
+    suspend fun deleteTask(id: String)
 }

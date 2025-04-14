@@ -1,7 +1,11 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package it.fabiovokrri.data.repository
 
 import it.fabiovokrri.model.Task
 import kotlinx.coroutines.flow.Flow
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Repository for the tasks.
@@ -15,7 +19,7 @@ interface TasksRepository {
     /**
      * Gets a task by its [id].
      */
-    suspend fun getTaskById(id: Long): Task
+    suspend fun getTaskById(id: Uuid): Task
 
     /**
      * Upserts the given [task].

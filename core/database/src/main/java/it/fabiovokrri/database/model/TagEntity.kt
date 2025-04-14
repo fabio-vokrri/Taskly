@@ -1,16 +1,18 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package it.fabiovokrri.database.model
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import it.fabiovokrri.model.Tag
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Entity that represents a tag in the database.
  */
 @Entity(tableName = "tags")
 data class TagEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val id: String,
     val name: String,
 )
 
@@ -19,7 +21,7 @@ data class TagEntity(
  */
 fun TagEntity.toExternalModel() = Tag(
     name = name,
-    id = id,
+    id = Uuid.parse(id),
 )
 
 /**
@@ -27,5 +29,5 @@ fun TagEntity.toExternalModel() = Tag(
  */
 fun Tag.toEntity() = TagEntity(
     name = name,
-    id = id,
+    id = id.toHexString(),
 )

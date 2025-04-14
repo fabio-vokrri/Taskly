@@ -22,7 +22,7 @@ interface TagDao {
      * Gets a tag by its [id].
      */
     @Query("SELECT * FROM tags WHERE id = :id")
-    fun getTagById(id: Long): Flow<TagEntity>
+    fun getTagById(id: String): Flow<TagEntity>
 
     /**
      * Inserts or updates a tag in the database.
@@ -34,11 +34,11 @@ interface TagDao {
      * Deletes a tag from the database.
      */
     @Query("DELETE FROM tags WHERE id = :id")
-    suspend fun deleteByTagId(id: Long)
+    suspend fun deleteByTagId(id: String)
 
     /**
      * Gets all the tags associated with the given [taskId].
      */
     @Query("SELECT * FROM tags JOIN tasks_tags ON tags.id = tasks_tags.tag_id WHERE tasks_tags.task_id = :taskId")
-    fun getTagsByTaskId(taskId: Long): Flow<List<TagEntity>>
+    fun getTagsByTaskId(taskId: String): Flow<List<TagEntity>>
 }

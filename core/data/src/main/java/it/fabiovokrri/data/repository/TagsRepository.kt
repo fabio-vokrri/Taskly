@@ -1,7 +1,11 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package it.fabiovokrri.data.repository
 
 import it.fabiovokrri.model.Tag
 import kotlinx.coroutines.flow.Flow
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Repository for the tags.
@@ -15,7 +19,7 @@ interface TagsRepository {
     /**
      * Gets a tag by its [id].
      */
-    fun getTagById(id: Long): Flow<Tag>
+    fun getTagById(id: Uuid): Flow<Tag>
 
     /**
      * Upserts the given [tag].
@@ -30,5 +34,5 @@ interface TagsRepository {
     /**
      * Gets all the tags associated with the given [taskId].
      */
-    fun getTagsByTaskId(taskId: Long): Flow<List<Tag>>
+    fun getTagsByTaskId(taskId: Uuid): Flow<List<Tag>>
 }

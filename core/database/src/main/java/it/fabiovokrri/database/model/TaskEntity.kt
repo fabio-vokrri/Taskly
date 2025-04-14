@@ -1,18 +1,20 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package it.fabiovokrri.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import it.fabiovokrri.model.Task
 import it.fabiovokrri.model.TaskStatus
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Entity that represents a task in the database.
  */
 @Entity(tableName = "tasks")
 data class TaskEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val id: String,
     val title: String,
     @ColumnInfo(defaultValue = "")
     val description: String,
@@ -22,10 +24,10 @@ data class TaskEntity(
 )
 
 /**
- * Converts a [TaskEntity] into an [Task].
+ * Converts a [TaskEntity] into a [Task].
  */
 fun TaskEntity.toExternalModel() = Task(
-    id = id,
+    id = Uuid.parse(id),
     title = title,
     description = description,
     dueDate = dueDate,
@@ -34,8 +36,11 @@ fun TaskEntity.toExternalModel() = Task(
     status = status
 )
 
+/**
+ * Converts a [Task] into a [TaskEntity].
+ */
 fun Task.toEntity() = TaskEntity(
-    id = id,
+    id = id.toHexString(),
     title = title,
     description = description,
     dueDate = dueDate,

@@ -4,6 +4,8 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 import it.fabiovokrri.model.Task
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Resource that contains the task and its tags.
@@ -27,8 +29,9 @@ data class PopulatedTaskResource(
 /**
  * Converts a [PopulatedTaskResource] into a [Task].
  */
+@OptIn(ExperimentalUuidApi::class)
 fun PopulatedTaskResource.toExternalModel() = Task(
-    id = task.id,
+    id = Uuid.parse(task.id),
     title = task.title,
     description = task.description,
     dueDate = task.dueDate,

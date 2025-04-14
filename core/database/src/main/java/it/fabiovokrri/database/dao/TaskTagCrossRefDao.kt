@@ -27,11 +27,11 @@ interface TaskTagCrossRefDao {
      * Deletes a cross reference from the database given the [taskId].
      */
     @Query("DELETE FROM tasks_tags WHERE task_id = :taskId")
-    suspend fun deleteByTaskId(taskId: Long)
+    suspend fun deleteByTaskId(taskId: String)
 
     /**
      * Deletes a cross reference from the database given the [tagId].
      */
     @Query("DELETE FROM tasks_tags WHERE tag_id = :tagId")
-    suspend fun deleteByTagId(tagId: Long)
+    suspend fun deleteByTagId(tagId: String)
 }

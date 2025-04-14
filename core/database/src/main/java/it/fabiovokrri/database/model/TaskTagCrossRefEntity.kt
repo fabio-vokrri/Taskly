@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package it.fabiovokrri.database.model
 
 import androidx.room.ColumnInfo
@@ -5,6 +7,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import it.fabiovokrri.model.TaskTagCrossRef
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Cross reference entity for the many-to-many relationship between tasks and tags.
@@ -33,23 +37,23 @@ import it.fabiovokrri.model.TaskTagCrossRef
 )
 data class TaskTagCrossRefEntity(
     @ColumnInfo(name = "task_id")
-    val taskId: Long,
+    val taskId: String,
     @ColumnInfo(name = "tag_id")
-    val tagId: Long,
+    val tagId: String,
 )
 
 /**
  * Converts a [TaskTagCrossRefEntity] into a [TaskTagCrossRef].
  */
 fun TaskTagCrossRefEntity.toExternalModel() = TaskTagCrossRef(
-    taskId = taskId,
-    tagId = tagId,
+    taskId = Uuid.parse(taskId),
+    tagId = Uuid.parse(tagId),
 )
 
 /**
  * Converts a [TaskTagCrossRefEntity] into a [TaskTagCrossRef].
  */
 fun TaskTagCrossRef.toEntity() = TaskTagCrossRefEntity(
-    taskId = taskId,
-    tagId = tagId,
+    taskId = taskId.toHexString(),
+    tagId = tagId.toHexString(),
 )
